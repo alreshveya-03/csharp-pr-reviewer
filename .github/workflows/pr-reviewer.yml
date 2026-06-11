@@ -38,8 +38,8 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
 
-         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-         LLM_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LLM_PROVIDER: gemini
 
           PRIMARY_MODEL: google/gemini-2.5-flash
           FALLBACK_MODEL: deepseek/deepseek-chat
