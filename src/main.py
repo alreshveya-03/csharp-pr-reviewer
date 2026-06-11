@@ -21,6 +21,8 @@ from src.models.review import Review
 # Integrations
 from src.integrations.github.github_client import GitHubClient
 from src.integrations.gemini.gemini_client import GeminiClient
+from src.integrations.llm_router import LLMRouter
+
 
 # Services
 from src.services.diff.csharp_filter import CSharpFileFilter
@@ -89,11 +91,10 @@ async def bootstrap() -> None:
     # Register concrete clients for remote executions
     container.register_singleton(IGitHubClient, GitHubClient(config))
     
-    if config.llm_provider.lower() == "openrouter":
-        from src.integrations.openrouter.openrouter_client import OpenRouterClient
-        container.register_singleton(ILLMClient, OpenRouterClient(config))
-    else:
-        container.register_singleton(ILLMClient, GeminiClient(config))
+    container.register_singleton(
+        ILLMClient,
+        LLMRouter(config)
+    )
     
     # Register remaining orchestrator services
     container.register_factory(

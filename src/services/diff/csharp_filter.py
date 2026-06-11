@@ -20,7 +20,9 @@ class CSharpFileFilter:
             "**/*.g.cs",
             "**/*.generated.cs",
             "**/Migrations/**",
-            "**/AssemblyAttributes.cs"
+            "**/AssemblyAttributes.cs",
+            "**/.history/**",
+            ".history/**",
         ]
 
     def should_review(self, file_path: str) -> bool:
