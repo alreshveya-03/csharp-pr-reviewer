@@ -22,3 +22,4 @@ Passed: 10
 Failed: 0
 
 The AI Code Review GitHub Action was tested using both secure and intentionally vulnerable C# source files. The workflow successfully detected security vulnerabilities, code quality issues, and architecture concerns while generating structured review reports and publishing results to GitHub Pull Requests.
+workflow test
