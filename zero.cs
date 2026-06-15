@@ -4,10 +4,12 @@ class Program
 {
     static void Main()
     {
-        int a = 10;
-        int b = 0;
+        Console.WriteLine("Hello, World!");
 
-        int result = a / b; // Runtime error
-        Console.WriteLine(result);
+        int num1 = 10;
+        int num2 = 20;
+        int sum = num1 + num2;
+
+        Console.WriteLine("Sum: " + sum);
     }
 }
