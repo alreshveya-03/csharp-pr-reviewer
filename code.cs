@@ -2,13 +2,20 @@ using System;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        int number1 = 10;
-        int number2 = 0;
+        int n;
 
-        int result = number1 / number2;
+        Console.Write("Enter a number: ");
+        n = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine("Result: " + result);
+        if (n % 2 == 0)
+        {
+            Console.WriteLine("Even Number");
+        }
+        else
+        {
+            Console.WriteLine("Odd Number");
+        }
     }
 }
