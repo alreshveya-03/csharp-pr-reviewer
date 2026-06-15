@@ -1,32 +1,35 @@
+// Suggested Fix:
 using System;
+
+public static class NumberChecker
+{
+    public static bool IsEven(int number)
+    {
+        return number % 2 == 0;
+    }
+}
 
 class Program
 {
     static void Main(string[] args)
     {
-        int n;
-        string input;
+        Console.Write("Enter a number: ");
+        string input = Console.ReadLine();
 
-        while (true)
+        if (int.TryParse(input, out int n))
         {
-            Console.Write("Enter a number: ");
-            input = Console.ReadLine();
-
-            if (int.TryParse(input, out n))
+            if (NumberChecker.IsEven(n))
             {
-                break;
+                Console.WriteLine("Even Number");
             }
-
-            Console.WriteLine("Invalid input. Please enter a valid integer.");
-        }
-
-        if (n % 2 == 0)
-        {
-            Console.WriteLine("Even Number");
+            else
+            {
+                Console.WriteLine("Odd Number");
+            }
         }
         else
         {
-            Console.WriteLine("Odd Number");
+            Console.WriteLine("Invalid input. Please enter a valid number.");
         }
     }
 }
