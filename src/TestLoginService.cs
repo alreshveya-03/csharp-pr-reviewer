@@ -1,4 +1,15 @@
-public class Employee
+using System;
+
+class Program
 {
-    private string password = "Admin123";
+    static void Main()
+    {
+        int number = "10";   
+        Console.WriteLine("Number is: " + num); 
+
+        if (number = 10)     
+        {
+            Console.WriteLine("Ten");
+        }
+    }
 }
