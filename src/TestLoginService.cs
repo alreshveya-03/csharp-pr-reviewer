@@ -1,36 +1,15 @@
 using System;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 
-public class UserService
+class Program
 {
-    private string connectionString =
-        "Server=localhost;Database=Users;User Id=sa;Password=admin123";
-
-    public async Task<bool> Login(string username, string password)
+    static void Main()
     {
-        SqlConnection connection = new SqlConnection(connectionString);
+        int number = "10";   
+        Console.WriteLine("Number is: " + num); 
 
-        connection.Open();
-
-        string query =
-            "SELECT * FROM Users WHERE Username='" +
-            username +
-            "' AND Password='" +
-            password +
-            "'";
-
-        SqlCommand command = new SqlCommand(query, connection);
-
-        var result = command.ExecuteReader();
-
-        Console.WriteLine(username.Length);
-
-        if (result.HasRows)
+        if (number = 10)     
         {
-            return true;
+            Console.WriteLine("Ten");
         }
-
-        return false;
     }
 }
