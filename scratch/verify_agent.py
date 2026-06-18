@@ -6,11 +6,12 @@ from src.core.config import AppConfig
 from src.core.container import Container
 from src.core.logging import configure_logging
 
-# Client interfaces & mocks
-from src.main import MockGitHubClient, MockLLMClient
+# Client interfaces & models
 from src.interfaces.github_client import IGitHubClient
 from src.interfaces.llm_client import ILLMClient
 from src.interfaces.reviewer import IReviewer
+from src.models.pull_request import PullRequest
+from src.models.review import Review
 
 # Services
 from src.services.diff.csharp_filter import CSharpFileFilter
@@ -31,6 +32,44 @@ from src.services.publishing.publish_manager import PublishManager
 
 configure_logging("INFO")
 logger = logging.getLogger("VerifyAgent")
+
+class MockGitHubClient(IGitHubClient):
+    """Mock implementation of IGitHubClient for testing and offline verification."""
+    async def get_pull_request(self, pr_number: int) -> PullRequest:
+        return PullRequest(
+            pr_number=pr_number,
+            title="Mock Pull Request",
+            description="Mock Description",
+            state="open",
+            is_draft=False,
+            head_sha="a1b2c3d4e5f67890a1b2c3d4e5f67890abcdef12",
+            base_sha="f6e5d4c3b2a10987f6e5d4c3b2a10987abcdef12",
+            html_url="https://github.com/mock/repo/pull/1"
+        )
+
+    async def get_changed_files(self, pr_number: int) -> list[dict[str, Any]]:
+        return []
+
+    async def get_raw_diff(self, pr_number: int) -> str:
+        return ""
+
+    async def submit_review(self, pr_number: int, review: Review) -> None:
+        pass
+
+    async def get_review_comments(self, pr_number: int) -> list[dict[str, Any]]:
+        return []
+
+
+class MockLLMClient(ILLMClient):
+    """Mock implementation of ILLMClient for testing and offline verification."""
+    async def generate_structured_content(
+        self, 
+        prompt: str, 
+        system_instruction: str | None = None,
+        response_schema: dict[str, Any] | None = None
+    ) -> str:
+        return '{"findings": []}'
+
 
 class VerifyMockGitHubClient(MockGitHubClient):
     async def get_changed_files(self, pr_number: int) -> list[dict[str, Any]]:

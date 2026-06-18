@@ -3,6 +3,7 @@ import asyncio
 import logging
 import sys
 import io
+from typing import Any
 
 # Reconfigure stdout to support unicode emojis on Windows consoles
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -12,13 +13,39 @@ from src.core.logging import configure_logging
 from src.models.pull_request import PullRequest
 from src.models.findings import Finding
 from src.models.review import Review
-from src.main import MockGitHubClient
+from src.interfaces.github_client import IGitHubClient
 from src.services.publishing.review_formatter import ReviewFormatter
 from src.services.publishing.review_summary_generator import ReviewSummaryGenerator
 from src.services.publishing.publish_manager import PublishManager
 
 configure_logging("INFO")
 logger = logging.getLogger("VerifyPublishing")
+
+class MockGitHubClient(IGitHubClient):
+    """Mock implementation of IGitHubClient for testing and offline verification."""
+    async def get_pull_request(self, pr_number: int) -> PullRequest:
+        return PullRequest(
+            pr_number=pr_number,
+            title="Mock Pull Request",
+            description="Mock Description",
+            state="open",
+            is_draft=False,
+            head_sha="mock-head-sha",
+            base_sha="mock-base-sha",
+            html_url="https://github.com/mock/repo/pull/1"
+        )
+
+    async def get_changed_files(self, pr_number: int) -> list[dict[str, Any]]:
+        return []
+
+    async def get_raw_diff(self, pr_number: int) -> str:
+        return ""
+
+    async def submit_review(self, pr_number: int, review: Review) -> None:
+        pass
+
+    async def get_review_comments(self, pr_number: int) -> list[dict[str, Any]]:
+        return []
 
 def run_verification() -> None:
     logger.info("Initializing configuration parameters.")
